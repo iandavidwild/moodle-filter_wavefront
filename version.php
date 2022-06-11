@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version   = 2022061100;         // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2022041200;         // Requires this Moodle version.
-$plugin->component = 'filter_wavefront'; // Full name of the plugin (used for diagnostics)
+$plugin->component = 'filter_wavefront'; // Full name of the plugin (used for diagnostics).
 $plugin->dependencies = array(
     'mod_wavefront' => 2022050102,       // The Wavefront activity plugin version 2022050102 or higher must be present.
 );

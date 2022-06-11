@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -21,10 +20,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-// Given a shortcode of the format: 
-//     [wavefront id="n"]
+// Given a shortcode of the format:
+// [wavefront id="n"]
 // ...return the HTML to embed the specified model.
 //
 // This version is based on original multilang filter by Gaetan Frenoy,
@@ -37,48 +34,48 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class filter_wavefront extends moodle_text_filter {
-    function filter($text, array $options = array()) {
+    public function filter($text, array $options = array()) {
         global $PAGE, $DB;
 
         if (empty($text) or is_numeric($text)) {
             return $text;
         }
-        
+
         // Do a quick check using stripos to avoid unnecessary work.
-        if ((strpos($text,'[') === false) &&
-            (!preg_match('/\[wavefront id=/i',$text))) {
+        if ((strpos($text, '[') === false) &&
+            (!preg_match('/\[wavefront id=/i', $text))) {
                 return $text;
         }
 
-        // Get mod_wavefront renderer
+        // Get mod_wavefront renderer.
         $renderer = $PAGE->get_renderer('mod_wavefront');
-        if(!isset($renderer)) {
+        if (!isset($renderer)) {
             return $text;
         }
-        
+
         $search = '/\[wavefront id=.*\]/';
-        
+
         preg_match_all($search, $text, $matches, PREG_OFFSET_CAPTURE );
-        
+
         // Work backwards so we don't alter shortcode position.
-        for ($i=count($matches[0])-1; $i>=0; $i--) {
+        for ($i = count($matches[0])-1; $i >= 0; $i--) {
             // Parse id number from match.
             preg_match('!\d+!', $matches[0][$i][0], $id);
-            if(isset($id[0])) {
-                if($model = $DB->get_record('wavefront_model', array('id' => $id[0]))) {
+            if (isset($id[0])) {
+                if ($model = $DB->get_record('wavefront_model', array('id' => $id[0]))) {
                     // Create a unique stage name, which will need to be passed to JS.
                     $stagename = uniqid('wavefront_');
                     list($course, $cm) = get_course_and_cm_from_instance($model->wavefrontid, 'wavefront');
                     $context = context_module::instance($cm->id);
-                    $model_html = $renderer->display_model($context, $model, $stagename, false);
+                    $modelhtml = $renderer->display_model($context, $model, $stagename, false);
                     // Remove shortcode.
                     $text = substr_replace($text, '', $matches[0][$i][1], strlen($matches[0][$i][0]));
                     // Insert model.
-                    $text = substr_replace($text, $model_html, $matches[0][$i][1], 0);
+                    $text = substr_replace($text, $modelhtml, $matches[0][$i][1], 0);
                 }
             }
         }
 
-       return $text;
+        return $text;
     }
 }

@@ -24,8 +24,6 @@
 
 namespace filter_wavefront\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for filter_wavefront implementing null_provider.
  *
