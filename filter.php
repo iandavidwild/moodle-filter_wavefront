@@ -58,21 +58,23 @@ class filter_wavefront extends moodle_text_filter {
         
         $search = '/\[wavefront id=.*\]/';
         
-        preg_match_all($search, $text, $matches);
+        preg_match_all($search, $text, $matches, PREG_OFFSET_CAPTURE );
         
-        for ($i=0; $i<count($matches[0]); $i++) {
+        // Work backwards so we don't alter shortcode position.
+        for ($i=count($matches[0])-1; $i>=0; $i--) {
             // Parse id number from match.
-            preg_match('!\d+!', $matches[0][$i], $id);
+            preg_match('!\d+!', $matches[0][$i][0], $id);
             if(isset($id[0])) {
                 if($model = $DB->get_record('wavefront_model', array('id' => $id[0]))) {
-                    
                     // Create a unique stage name, which will need to be passed to JS.
                     $stagename = uniqid('wavefront_');
                     list($course, $cm) = get_course_and_cm_from_instance($model->wavefrontid, 'wavefront');
                     $context = context_module::instance($cm->id);
                     $model_html = $renderer->display_model($context, $model, $stagename, false);
-                    
-                    $text = str_replace( $matches[0][$i], $model_html, $text);
+                    // Remove shortcode.
+                    $text = substr_replace($text, '', $matches[0][$i][1], strlen($matches[0][$i][0]));
+                    // Insert model.
+                    $text = substr_replace($text, $model_html, $matches[0][$i][1], 0);
                 }
             }
         }
