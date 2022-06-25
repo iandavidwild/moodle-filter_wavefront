@@ -1,5 +1,5 @@
 # moodle-filter_wavefront
-filter_wavefront is a Moodle plugin that allows content creators to easily include 3D models from a mod_wavefront gallery anywhere in Moodle that supports filtering. Please note this plugin requires version 2022061104 (release 0.0.2.0) or above of the mod_wavefront activity - see <a href="https://github.com/iandavidwild/moodle-mod_wavefront">https://github.com/iandavidwild/moodle-mod_wavefront</a>.
+filter_wavefront is a Moodle plugin that allows content creators to easily include 3D models from a mod_wavefront gallery anywhere in Moodle that supports filtering. Please note this plugin requires version 2022061104 or above of the mod_wavefront activity - see <a href="https://github.com/iandavidwild/moodle-mod_wavefront">https://github.com/iandavidwild/moodle-mod_wavefront</a>.
 
 The mod_wavefront and filter_wavefront plugins work together as follows:
 * mod_wavefront generates unique shortcodes for each 3D model displayed in a gallery.
