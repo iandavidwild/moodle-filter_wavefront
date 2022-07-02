@@ -31,3 +31,5 @@ $plugin->component = 'filter_wavefront'; // Full name of the plugin (used for di
 $plugin->dependencies = array(
     'mod_wavefront' => 2022050102,       // The Wavefront activity plugin version 2022050102 or higher must be present.
 );
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = '0.0.0.1';
